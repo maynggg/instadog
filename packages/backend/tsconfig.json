@@ -9,7 +9,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "src/seedData.ts"],
   "exclude": ["node_modules"]
 }
 
