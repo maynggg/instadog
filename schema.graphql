@@ -1,0 +1,63 @@
+type Query {
+  getUserById(id: String!): User
+  # getPostById(id: String!): Post
+  # getPostsByUserId(userId: String!): [Post!]
+  # getCommentById(id: String!): Comment
+  # getCommentsByPostId(postId: String!): [Comment!]
+  # getLikeByPostId(postId: String!): Like
+}
+
+type Mutation {
+  updateUser(id: String!, input: UserInput): User!
+}
+
+input UserInput {
+  userName: String
+  password: String
+  email: String
+  bio: String
+}
+
+type User {
+  _id: String!
+  userName: String!
+  password: String!
+  email: String!
+  bio: String
+  avatarUrl: String
+  createdAt: String!
+  updatedAt: String!
+  posts: [Post!]
+  followerNum: Int
+  followingNum: Int
+  followers: [User!]
+  followings: [User!]
+}
+
+type Post {
+  _id: String!
+  userId: String!
+  photoUrl: String!
+  caption: String
+  createdAt: String!
+  updatedAt: String!
+  commentNum: Int
+  likeNum: Int
+  comments: [Comment!]
+  likes: [Like!]
+}
+
+type Comment {
+  _id: String!
+  postId: String!
+  userId: String!
+  text: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Like {
+  postId: String!
+  userId: String!
+  user: User
+}
