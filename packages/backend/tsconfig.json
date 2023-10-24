@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "target": "ES6",
+    "module": "commonjs",
+    "types": ["node"],
+    "esModuleInterop": true,
     "outDir": "./dist",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
   "include": ["**/*.ts"],
-  "exclude": ["node_modules"],
-  "references": [
-    { "path": "../common" }
-  ],
+  "exclude": ["node_modules"]
 }
+

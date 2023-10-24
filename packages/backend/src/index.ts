@@ -1,15 +1,26 @@
-import express, { Request, Response } from "express";
-import type { Greeting } from "@airbnbclone/common/types/greeting";
-const app = express();
-const port = 3000;
+import "dotenv/config";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { PORT } from "./config";
+import { initDb } from "./db";
+import { readFileSync } from "node:fs";
+import { resolvers } from "./resolvers";
 
-app.get("/", (req: Request, res: Response) => {
-  const greeting: Greeting = {
-    message: "hello",
-  };
-  res.json(greeting);
-});
+const typeDefs = readFileSync("../../schema.graphql", "utf8");
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+const main = async () => {
+  await initDb();
+
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+  });
+
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: PORT },
+  });
+
+  console.log(`🚀  Server ready at: ${url}`);
+};
+
+main();
