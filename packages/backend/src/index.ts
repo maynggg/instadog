@@ -4,12 +4,14 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { PORT } from "./config";
 import { initDb } from "./db";
 import { readFileSync } from "node:fs";
-import { resolvers } from "./resolvers";
+import { createResolvers } from "./resolvers";
 
 const typeDefs = readFileSync("../../schema.graphql", "utf8");
 
 const main = async () => {
   await initDb();
+
+  const resolvers = createResolvers();
 
   const server = new ApolloServer({
     typeDefs,

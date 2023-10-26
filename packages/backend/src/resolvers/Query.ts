@@ -1,21 +1,18 @@
 import { QueryResolvers } from "@/generated/resolvers-types";
-import { User } from "../models/user";
+import { UserService } from "@/services/user.service";
 
-export const QueryResolversImpl: QueryResolvers = {
-  getUserById: async (_, { id }: { id: string }) => {
-    const user = await User.findById(id).lean();
+export const createQueryResolvers = ({ userService }: { userService: UserService }): QueryResolvers => {
+  return {
+    getUserById: async (_, { id }: { id: string }) => {
+      const user = await userService.findById(id);
 
-    if (!user) return null;
+      if (!user) return null;
 
-    return {
-      _id: user._id.toString(),
-      userName: user.userName,
-      password: user.password,
-      email: user.email,
-      bio: user.bio,
-      avatarUrl: user.avatarUrl,
-      createdAt: user.createdAt.toISOString(),
-      updatedAt: user.updatedAt.toISOString(),
-    };
-  },
+      return {
+        ...user,
+        createdAt: user.createdAt.toISOString(),
+        updatedAt: user.updatedAt.toISOString(),
+      };
+    },
+  };
 };
