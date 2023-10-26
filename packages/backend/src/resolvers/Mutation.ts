@@ -1,25 +1,22 @@
 import { MutationResolvers, UserInput } from "@/generated/resolvers-types";
-import { User } from "../models/user";
+import { UserService } from "@/services/user.service";
 
-export const MutationResolversImpl: MutationResolvers = {
-  updateUser: async (_, { id, input }: { id: string; input: UserInput }) => {
-    const user = await User.findById(id).lean();
+export const createMutationResolvers = ({ userService }: { userService: UserService }): MutationResolvers => {
+  return {
+    updateUser: async (_, { id, input }: { id: string; input: UserInput }) => {
+      const user = await userService.findById(id);
 
-    if (!user) {
-      throw new Error(`User not found with id ${id}`);
-    }
+      if (!user) {
+        throw new Error(`User not found with id ${id}`);
+      }
 
-    const updatedUser = await User.findByIdAndUpdate(id, input, { new: true }).lean();
+      const updatedUser = await userService.findByIdAndUpdate(id, input);
 
-    return {
-      _id: updatedUser._id.toString(),
-      userName: updatedUser.userName,
-      password: updatedUser.password,
-      email: updatedUser.email,
-      bio: updatedUser.bio,
-      avatarUrl: updatedUser.avatarUrl,
-      createdAt: updatedUser.createdAt.toISOString(),
-      updatedAt: updatedUser.updatedAt.toISOString(),
-    };
-  },
+      return {
+        ...updatedUser,
+        createdAt: updatedUser.createdAt.toISOString(),
+        updatedAt: updatedUser.updatedAt.toISOString(),
+      };
+    },
+  };
 };

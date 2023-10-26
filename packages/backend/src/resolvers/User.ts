@@ -1,54 +1,66 @@
 import { UserResolvers } from "@/generated/resolvers-types";
-import { Post } from "../models/post";
-import { Follow } from "../models/follow";
-import { User } from "../models/user";
+import { PostService } from "../services/post.service";
+import { FollowService } from "../services/follow.service";
+import { UserService } from "@/services/user.service";
 
-const getUser = async (followerId: string) => {
-  const user = await User.findById(followerId).lean();
-
+export const createUserResolvers = ({
+  userService,
+  postService,
+  followService,
+}: {
+  userService: UserService;
+  postService: PostService;
+  followService: FollowService;
+}): UserResolvers => {
   return {
-    _id: user._id.toString(),
-    userName: user.userName,
-    password: user.password,
-    email: user.email,
-    bio: user.bio,
-    avatarUrl: user.avatarUrl,
-    createdAt: user.createdAt.toISOString(),
-    updatedAt: user.updatedAt.toISOString(),
+    posts: async (user) => {
+      const postsByUser = await postService.findPostsByUserId(user._id);
+
+      return postsByUser.map((post) => ({
+        ...post,
+        createdAt: post.createdAt.toISOString(),
+        updatedAt: post.updatedAt.toISOString(),
+      }));
+    },
+    followerNum: async (user) => {
+      return followService.getFollowerNum(user._id);
+    },
+    followingNum: async (user) => {
+      return followService.getFollowingNum(user._id);
+    },
+    followers: async (user) => {
+      const follows = await followService.findByFollowingId(user._id);
+      const followerIds = follows.map((follow) => follow.followerId.toString());
+
+      const followerUsers = await Promise.all(
+        followerIds.map(async (followerId) => {
+          const user = await userService.findById(followerId);
+          return {
+            ...user,
+            _id: user._id.toString(),
+            createdAt: user.createdAt.toISOString(),
+            updatedAt: user.updatedAt.toISOString(),
+          };
+        }),
+      );
+      return followerUsers;
+    },
+    followings: async (user) => {
+      const follows = await followService.findByFollowerId(user._id);
+      const followingIds = follows.map((follow) => follow.followingId.toString());
+
+      const followingUsers = await Promise.all(
+        followingIds.map(async (followingId) => {
+          const user = await userService.findById(followingId);
+          return {
+            ...user,
+            _id: user._id.toString(),
+            createdAt: user.createdAt.toISOString(),
+            updatedAt: user.updatedAt.toISOString(),
+          };
+        }),
+      );
+      return followingUsers;
+    },
   };
-};
-
-export const UserResolversImpl: UserResolvers = {
-  posts: async (user) => {
-    const postsByUser = await Post.find({ userId: user._id }).lean();
-    return postsByUser.map((post) => ({
-      ...post,
-      _id: post._id.toString(),
-      userId: post.userId.toString(),
-      createdAt: post.createdAt.toISOString(),
-      updatedAt: post.updatedAt.toISOString(),
-    }));
-  },
-  followerNum: async (user) => {
-    const followers = await Follow.find({ followingId: user._id }).lean();
-    return followers.length;
-  },
-  followingNum: async (user) => {
-    const followings = await Follow.find({ followerId: user._id }).lean();
-    return followings.length;
-  },
-  followers: async (user) => {
-    const follows = await Follow.find({ followingId: user._id }).lean();
-    const followerIds = follows.map((follow) => follow.followerId.toString());
-
-    const followers = Promise.all(followerIds.map((followerId) => getUser(followerId)));
-    return followers;
-  },
-  followings: async (user) => {
-    const follows = await Follow.find({ followerId: user._id }).lean();
-    const followingIds = follows.map((follow) => follow.followingId.toString());
-
-    const followings = Promise.all(followingIds.map((followingId) => getUser(followingId)));
-    return followings;
-  },
 };
