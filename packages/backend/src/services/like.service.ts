@@ -12,7 +12,7 @@ export type ILikeService = {
 export class LikeService implements ILikeService {
   constructor(private readonly likeModel: typeof Like) {}
 
-  async findLikesByPostId(postId: string): Promise<LikeEntity[]> {
+  async findLikesByPostId(postId: string): Promise<LikeEntity[] | null> {
     const likesByPost = await this.likeModel.find({ postId: postId }).lean();
 
     if (!likesByPost) return null;

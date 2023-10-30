@@ -1,9 +1,9 @@
 import { QueryResolvers } from "@/generated/resolvers-types";
-import { UserService } from "@/services/user.service";
+import { IUserService } from "@/services/user.service";
 
-export const createQueryResolvers = ({ userService }: { userService: UserService }): QueryResolvers => {
+export const createQueryResolvers = ({ userService }: { userService: IUserService }): QueryResolvers => {
   return {
-    getUserById: async (_, { id }: { id: string }) => {
+    getUserById: async (_parent, { id }: { id: string }) => {
       const user = await userService.findById(id);
 
       if (!user) return null;

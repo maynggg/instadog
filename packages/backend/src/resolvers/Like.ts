@@ -1,7 +1,7 @@
 import { LikeResolvers } from "@/generated/resolvers-types";
-import { UserService } from "@/services/user.service";
+import { IUserService } from "@/services/user.service";
 
-export const createLikeResolvers = ({ userService }: { userService: UserService }): LikeResolvers => {
+export const createLikeResolvers = ({ userService }: { userService: IUserService }): LikeResolvers => {
   return {
     user: async (like) => {
       const user = await userService.findById(like.userId);

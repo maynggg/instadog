@@ -15,8 +15,10 @@ export interface IFollowService {
 export class FollowService implements IFollowService {
   constructor(private readonly followModel: typeof Follow) {}
 
-  async findByFollowerId(followerId: string): Promise<FollowEntity[]> {
+  async findByFollowerId(followerId: string): Promise<FollowEntity[] | null> {
     const follows = await this.followModel.find({ followerId }).lean();
+
+    if (!follows) return null;
 
     return follows.map((follow) => ({
       followerId: follow.followerId.toString(),
@@ -24,8 +26,10 @@ export class FollowService implements IFollowService {
     }));
   }
 
-  async findByFollowingId(followingId: string): Promise<FollowEntity[]> {
+  async findByFollowingId(followingId: string): Promise<FollowEntity[] | null> {
     const follows = await this.followModel.find({ followingId }).lean();
+
+    if (!follows) return null;
 
     return follows.map((follow) => ({
       followerId: follow.followerId.toString(),
