@@ -44,4 +44,8 @@ export class UserService implements IUserService {
       updatedAt: updatedUser.updatedAt,
     };
   }
+
+  async testService() {
+    return "Hello World!";
+  }
 }
