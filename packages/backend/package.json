@@ -1,5 +1,5 @@
 {
-  "name": "@airbnbclone/backend",
+  "name": "@instadog/backend",
   "version": "1.0.0",
   "description": "GraphQL Apollo Backend Server",
   "scripts": {
