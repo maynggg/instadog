@@ -10,13 +10,13 @@ export type PostEntity = {
 };
 
 export interface IPostService {
-  findPostsByUserId(id: string, input: Partial<PostEntity>): Promise<PostEntity[] | null>;
+  findPostsByUserId(id: string): Promise<PostEntity[] | null>;
 }
 
 export class PostService implements IPostService {
   constructor(private readonly postModel: typeof Post) {}
 
-  async findPostsByUserId(userId: string): Promise<PostEntity[]> {
+  async findPostsByUserId(userId: string): Promise<PostEntity[] | null> {
     const postsByUser = await this.postModel.find({ userId: userId }).lean();
 
     if (!postsByUser) return null;

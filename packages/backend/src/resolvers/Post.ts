@@ -1,13 +1,13 @@
 import { PostResolvers } from "@/generated/resolvers-types";
-import { LikeService } from "../services/like.service";
-import { CommentService } from "../services/comment.service";
+import { ILikeService } from "../services/like.service";
+import { ICommentService } from "../services/comment.service";
 
 export const createPostResolvers = ({
   likeService,
   commentService,
 }: {
-  likeService: LikeService;
-  commentService: CommentService;
+  likeService: ILikeService;
+  commentService: ICommentService;
 }): PostResolvers => {
   return {
     commentNum: async (post) => {

@@ -1,9 +1,9 @@
 import { MutationResolvers, UserInput } from "@/generated/resolvers-types";
-import { UserService } from "@/services/user.service";
+import { IUserService } from "@/services/user.service";
 
-export const createMutationResolvers = ({ userService }: { userService: UserService }): MutationResolvers => {
+export const createMutationResolvers = ({ userService }: { userService: IUserService }): MutationResolvers => {
   return {
-    updateUser: async (_, { id, input }: { id: string; input: UserInput }) => {
+    updateUser: async (_parent, { id, input }: { id: string; input: UserInput }) => {
       const user = await userService.findById(id);
 
       if (!user) {

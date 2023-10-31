@@ -1,16 +1,16 @@
 import { UserResolvers } from "@/generated/resolvers-types";
-import { PostService } from "../services/post.service";
-import { FollowService } from "../services/follow.service";
-import { UserService } from "@/services/user.service";
+import { IPostService } from "../services/post.service";
+import { IFollowService } from "../services/follow.service";
+import { IUserService } from "@/services/user.service";
 
 export const createUserResolvers = ({
   userService,
   postService,
   followService,
 }: {
-  userService: UserService;
-  postService: PostService;
-  followService: FollowService;
+  userService: IUserService;
+  postService: IPostService;
+  followService: IFollowService;
 }): UserResolvers => {
   return {
     posts: async (user) => {

@@ -19,7 +19,7 @@ export interface IUserService {
 export class UserService implements IUserService {
   constructor(private readonly userModel: typeof User) {}
 
-  async findById(id: string): Promise<UserEntity> {
+  async findById(id: string): Promise<UserEntity | null> {
     const user = await this.userModel.findById(id).lean();
 
     if (!user) return null;
@@ -32,7 +32,7 @@ export class UserService implements IUserService {
     };
   }
 
-  async findByIdAndUpdate(id: string, input: Partial<UserEntity>): Promise<UserEntity> {
+  async findByIdAndUpdate(id: string, input: Partial<UserEntity>): Promise<UserEntity | null> {
     const updatedUser = await User.findByIdAndUpdate(id, input, { new: true }).lean();
 
     if (!updatedUser) return null;
