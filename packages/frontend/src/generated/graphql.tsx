@@ -17,6 +17,12 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AuthPayload = {
+  __typename?: 'AuthPayload';
+  token: Scalars['String']['output'];
+  user: User;
+};
+
 export type Comment = {
   __typename?: 'Comment';
   _id: Scalars['String']['output'];
@@ -25,6 +31,12 @@ export type Comment = {
   text: Scalars['String']['output'];
   updatedAt: Scalars['String']['output'];
   userId: Scalars['String']['output'];
+};
+
+export type CreateUserInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  userName: Scalars['String']['input'];
 };
 
 export type Like = {
@@ -36,13 +48,26 @@ export type Like = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  login: AuthPayload;
+  register: AuthPayload;
   updateUser: User;
+};
+
+
+export type MutationLoginArgs = {
+  password: Scalars['String']['input'];
+  userName: Scalars['String']['input'];
+};
+
+
+export type MutationRegisterArgs = {
+  input: CreateUserInput;
 };
 
 
 export type MutationUpdateUserArgs = {
   id: Scalars['String']['input'];
-  input?: InputMaybe<UserInput>;
+  input: UpdateUserInput;
 };
 
 export type Post = {
@@ -69,6 +94,14 @@ export type QueryGetUserByIdArgs = {
   id: Scalars['String']['input'];
 };
 
+export type UpdateUserInput = {
+  avatarUrl?: InputMaybe<Scalars['String']['input']>;
+  bio?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  userName?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type User = {
   __typename?: 'User';
   _id: Scalars['String']['output'];
@@ -84,13 +117,6 @@ export type User = {
   posts?: Maybe<Array<Post>>;
   updatedAt: Scalars['String']['output'];
   userName: Scalars['String']['output'];
-};
-
-export type UserInput = {
-  bio?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-  password?: InputMaybe<Scalars['String']['input']>;
-  userName?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type GetUserByIdQueryVariables = Exact<{

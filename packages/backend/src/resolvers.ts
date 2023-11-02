@@ -14,6 +14,7 @@ import { LikeService } from "./services/like.service";
 import { Like } from "./models/like.model";
 import { CommentService } from "./services/comment.service";
 import { Comment } from "./models/comment.model";
+import { AuthenticationService } from "./services/authentication.service";
 
 export const createResolvers: () => Resolvers = () => {
   const userService = new UserService(User);
@@ -21,10 +22,11 @@ export const createResolvers: () => Resolvers = () => {
   const followService = new FollowService(Follow);
   const likeService = new LikeService(Like);
   const commentService = new CommentService(Comment);
+  const authenticationService = new AuthenticationService();
 
   return {
     Query: createQueryResolvers({ userService }),
-    Mutation: createMutationResolvers({ userService }),
+    Mutation: createMutationResolvers({ userService, authenticationService }),
     User: createUserResolvers({ userService, postService, followService }),
     Post: createPostResolvers({ likeService, commentService }),
     Like: createLikeResolvers({ userService }),
