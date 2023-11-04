@@ -17,12 +17,6 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type AuthPayload = {
-  __typename?: 'AuthPayload';
-  token: Scalars['String']['output'];
-  user: User;
-};
-
 export type Comment = {
   __typename?: 'Comment';
   _id: Scalars['String']['output'];
@@ -46,10 +40,16 @@ export type Like = {
   userId: Scalars['String']['output'];
 };
 
+export type LoginResult = {
+  __typename?: 'LoginResult';
+  token: Scalars['String']['output'];
+  user: User;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  login: AuthPayload;
-  register: AuthPayload;
+  login: LoginResult;
+  register: RegistrationResult;
   updateUser: User;
 };
 
@@ -92,6 +92,12 @@ export type Query = {
 
 export type QueryGetUserByIdArgs = {
   id: Scalars['String']['input'];
+};
+
+export type RegistrationResult = {
+  __typename?: 'RegistrationResult';
+  token: Scalars['String']['output'];
+  user: User;
 };
 
 export type UpdateUserInput = {

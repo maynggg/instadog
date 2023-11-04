@@ -17,7 +17,7 @@ export const createMutationResolvers = ({
 
       const user = await userService.createOne({ userName, email, password: hashedPassword });
 
-      const token = authenticationService.signPayload({ id: user._id, email: user.email });
+      const token = authenticationService.signPayload({ userId: user._id });
 
       return {
         token,
@@ -40,7 +40,7 @@ export const createMutationResolvers = ({
         throw new Error("Incorrect password");
       }
 
-      const token = authenticationService.signPayload({ id: user._id, email: user.email });
+      const token = authenticationService.signPayload({ userId: user._id });
 
       return {
         token,
