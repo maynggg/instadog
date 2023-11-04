@@ -1,6 +1,7 @@
 import { GraphQLError } from "graphql";
 import { rule, shield } from "graphql-shield";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const isAuthenticated = rule({ cache: "contextual" })((parent, args, context) => {
   if (!context.userId) {
     return new GraphQLError("User is not authenticated", {
