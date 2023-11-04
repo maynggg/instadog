@@ -8,14 +8,28 @@ type Query {
 }
 
 type Mutation {
-  updateUser(id: String!, input: UserInput!): User!
+  register(input: CreateUserInput!): AuthPayload!
+  login (userName: String!, password: String!): AuthPayload!
+  updateUser(id: String!, input: UpdateUserInput!): User!
 }
 
-input UserInput {
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+input CreateUserInput {
+  userName: String!
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
   userName: String
   password: String
   email: String
   bio: String
+  avatarUrl: String
 }
 
 type User {

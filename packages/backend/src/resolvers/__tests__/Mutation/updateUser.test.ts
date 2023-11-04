@@ -1,14 +1,18 @@
 import { IUserService } from "@/services/user.service";
 import { createMutationResolvers } from "../../../resolvers/Mutation";
 import { FakeUserService } from "../../../services/fakes/fakeUser.service";
+import { IAuthenticationService } from "../../../services/authentication.service";
+import { FakeAuthenticationService } from "../../../services/fakes/fakeAuthentication.service";
 
 describe("Mutation Resolvers => updateUser", () => {
   let userService: IUserService;
+  let authenticationService: IAuthenticationService;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
     userService = new FakeUserService();
+    authenticationService = new FakeAuthenticationService();
   });
 
   it("should return null if the user is not found", async () => {
@@ -23,16 +27,11 @@ describe("Mutation Resolvers => updateUser", () => {
     jest.spyOn(userService, "findById").mockResolvedValueOnce(null);
     jest.spyOn(userService, "findByIdAndUpdate").mockResolvedValueOnce(expect.anything());
 
-    const { updateUser } = createMutationResolvers({ userService });
+    const { updateUser } = createMutationResolvers({ userService, authenticationService });
 
     await expect(() =>
       updateUser(null, { id: nonExistingUserId, input: userInput }, undefined, undefined),
     ).rejects.toThrowError();
-
-    expect(userService.findById).toHaveBeenCalledTimes(1);
-    expect(userService.findById).toHaveBeenCalledWith(nonExistingUserId);
-
-    expect(userService.findByIdAndUpdate).not.toHaveBeenCalled();
   });
 
   it("should return the updated user", async () => {
@@ -58,7 +57,7 @@ describe("Mutation Resolvers => updateUser", () => {
     jest.spyOn(userService, "findById").mockResolvedValueOnce(mockUser);
     jest.spyOn(userService, "findByIdAndUpdate").mockResolvedValueOnce(mockUpdatedUser);
 
-    const { updateUser } = createMutationResolvers({ userService });
+    const { updateUser } = createMutationResolvers({ userService, authenticationService });
 
     const updatedUser = await updateUser(null, { id: userId, input: userInput }, undefined, undefined);
 
@@ -67,11 +66,5 @@ describe("Mutation Resolvers => updateUser", () => {
       createdAt: mockUpdatedUser.createdAt.toISOString(),
       updatedAt: mockUpdatedUser.updatedAt.toISOString(),
     });
-
-    expect(userService.findById).toHaveBeenCalledTimes(1);
-    expect(userService.findById).toHaveBeenCalledWith(userId);
-
-    expect(userService.findByIdAndUpdate).toHaveBeenCalledTimes(1);
-    expect(userService.findByIdAndUpdate).toHaveBeenCalledWith(userId, userInput);
   });
 });

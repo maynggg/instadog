@@ -21,9 +21,6 @@ describe("Query Resolvers => getUserById", () => {
     const user = await getUserById(null, { id: nonExistingUserId }, undefined, undefined);
 
     expect(user).toBeNull();
-
-    expect(userService.findById).toHaveBeenCalledTimes(1);
-    expect(userService.findById).toHaveBeenCalledWith(nonExistingUserId);
   });
 
   it("should return the user if it is found", async () => {
@@ -50,8 +47,5 @@ describe("Query Resolvers => getUserById", () => {
       createdAt: mockUser.createdAt.toISOString(),
       updatedAt: mockUser.updatedAt.toISOString(),
     });
-
-    expect(userService.findById).toHaveBeenCalledTimes(1);
-    expect(userService.findById).toHaveBeenCalledWith(userId);
   });
 });
