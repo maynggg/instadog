@@ -16,12 +16,6 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
-export type AuthPayload = {
-  __typename?: 'AuthPayload';
-  token: Scalars['String']['output'];
-  user: User;
-};
-
 export type Comment = {
   __typename?: 'Comment';
   _id: Scalars['String']['output'];
@@ -45,10 +39,16 @@ export type Like = {
   userId: Scalars['String']['output'];
 };
 
+export type LoginResult = {
+  __typename?: 'LoginResult';
+  token: Scalars['String']['output'];
+  user: User;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  login: AuthPayload;
-  register: AuthPayload;
+  login: LoginResult;
+  register: RegistrationResult;
   updateUser: User;
 };
 
@@ -91,6 +91,12 @@ export type Query = {
 
 export type QueryGetUserByIdArgs = {
   id: Scalars['String']['input'];
+};
+
+export type RegistrationResult = {
+  __typename?: 'RegistrationResult';
+  token: Scalars['String']['output'];
+  user: User;
 };
 
 export type UpdateUserInput = {
@@ -186,15 +192,16 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Comment: ResolverTypeWrapper<Comment>;
   CreateUserInput: CreateUserInput;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Like: ResolverTypeWrapper<Like>;
+  LoginResult: ResolverTypeWrapper<LoginResult>;
   Mutation: ResolverTypeWrapper<{}>;
   Post: ResolverTypeWrapper<Post>;
   Query: ResolverTypeWrapper<{}>;
+  RegistrationResult: ResolverTypeWrapper<RegistrationResult>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   UpdateUserInput: UpdateUserInput;
   User: ResolverTypeWrapper<User>;
@@ -202,24 +209,19 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean']['output'];
   Comment: Comment;
   CreateUserInput: CreateUserInput;
   Int: Scalars['Int']['output'];
   Like: Like;
+  LoginResult: LoginResult;
   Mutation: {};
   Post: Post;
   Query: {};
+  RegistrationResult: RegistrationResult;
   String: Scalars['String']['output'];
   UpdateUserInput: UpdateUserInput;
   User: User;
-}>;
-
-export type AuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = ResolversObject<{
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type CommentResolvers<ContextType = any, ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']> = ResolversObject<{
@@ -239,9 +241,15 @@ export type LikeResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type LoginResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['LoginResult'] = ResolversParentTypes['LoginResult']> = ResolversObject<{
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  login?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'userName'>>;
-  register?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>;
+  login?: Resolver<ResolversTypes['LoginResult'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'password' | 'userName'>>;
+  register?: Resolver<ResolversTypes['RegistrationResult'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'input'>>;
   updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'input'>>;
 }>;
 
@@ -263,6 +271,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getUserById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserByIdArgs, 'id'>>;
 }>;
 
+export type RegistrationResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['RegistrationResult'] = ResolversParentTypes['RegistrationResult']> = ResolversObject<{
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   _id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   avatarUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -281,12 +295,13 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
-  AuthPayload?: AuthPayloadResolvers<ContextType>;
   Comment?: CommentResolvers<ContextType>;
   Like?: LikeResolvers<ContextType>;
+  LoginResult?: LoginResultResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  RegistrationResult?: RegistrationResultResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;
 

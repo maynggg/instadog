@@ -17,11 +17,14 @@ describe("Mutation Resolvers => updateUser", () => {
 
   it("should return null if the user is not found", async () => {
     const nonExistingUserId = "65403524239d16fa9881a61c";
-    const userInput = {
+    const mockUserInput = {
       userName: "test",
       password: "test",
       email: "test@gmail.com",
       bio: "Hello world!",
+    };
+    const mockContext = {
+      userId: nonExistingUserId,
     };
 
     jest.spyOn(userService, "findById").mockResolvedValueOnce(null);
@@ -30,17 +33,17 @@ describe("Mutation Resolvers => updateUser", () => {
     const { updateUser } = createMutationResolvers({ userService, authenticationService });
 
     await expect(() =>
-      updateUser(null, { id: nonExistingUserId, input: userInput }, undefined, undefined),
+      updateUser(null, { id: nonExistingUserId, input: mockUserInput }, mockContext, undefined),
     ).rejects.toThrowError();
   });
 
   it("should return the updated user", async () => {
-    const userId = "654035342e6d2c4d261076d3";
-    const userInput = {
+    const mockUserId = "654035342e6d2c4d261076d3";
+    const mockUserInput = {
       userName: "snuggles",
     };
     const mockUser = {
-      _id: userId,
+      _id: mockUserId,
       userName: "test",
       password: "test",
       email: "test@gmail.com",
@@ -51,7 +54,10 @@ describe("Mutation Resolvers => updateUser", () => {
     };
     const mockUpdatedUser = {
       ...mockUser,
-      userName: userInput.userName,
+      userName: mockUserInput.userName,
+    };
+    const mockContext = {
+      userId: mockUserId,
     };
 
     jest.spyOn(userService, "findById").mockResolvedValueOnce(mockUser);
@@ -59,7 +65,7 @@ describe("Mutation Resolvers => updateUser", () => {
 
     const { updateUser } = createMutationResolvers({ userService, authenticationService });
 
-    const updatedUser = await updateUser(null, { id: userId, input: userInput }, undefined, undefined);
+    const updatedUser = await updateUser(null, { id: mockUserId, input: mockUserInput }, mockContext, undefined);
 
     expect(updatedUser).toEqual({
       ...mockUpdatedUser,
