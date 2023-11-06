@@ -1,4 +1,9 @@
 {
+  "settings": {
+    "next": {
+      "rootDir": "/packages/frontend"
+    }
+  },
   "extends": [
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
