@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formInput {
+  height: 15px;
+  width: 258px;
+  background-color: #fafafa;
+  border: 1px solid #dbdbdb;
+  padding: 9px 0 7px 8px;
+}
+
+.loginButton {
+  background-color: #0094f6;
+  opacity: .7;
+  color: #ffffff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 8px;
+}
