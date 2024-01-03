@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { logIn } from "@/actions/logIn";
 import styles from "./LogInForm.module.css";
 import { useRef } from "react";
@@ -6,7 +7,7 @@ import { useFormState } from "react-dom";
 import { useFormStatus } from "react-dom";
 
 const initialFormState = {
-  message: "",
+  error: "",
 };
 
 const LogInForm = () => {
@@ -26,7 +27,7 @@ const LogInForm = () => {
       <button className={styles.loginButton} type="submit" disabled={pending}>
         {pending ? "Logging in" : "Log in"}
       </button>
-      {!!formState?.message && <p>{formState.message}</p>}
+      {!!formState.error && <p>{formState.error}</p>}
     </form>
   );
 };

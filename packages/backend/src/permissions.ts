@@ -31,6 +31,9 @@ const permissions = shield(
     Mutation: {
       updateUser: isAuthorized,
     },
+    Query: {
+      getUserById: isAuthenticated,
+    },
   },
   { allowExternalErrors: true },
 );

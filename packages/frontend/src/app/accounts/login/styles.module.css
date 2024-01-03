@@ -1,0 +1,100 @@
+.loginPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 32px;
+}
+
+.logInPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.logInInputArea {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border: 1px solid #dbdbdb;
+  padding: 20px 40px;
+  gap: 10px
+}
+
+.appLogo {
+  align-self: center;
+  margin-bottom: 15px;
+}
+
+.dividerGroup {
+  display: flex;
+  align-self: stretch;
+  margin: 40px 0 18px;
+  align-items: center;
+}
+
+.dividerLine {
+  flex-grow: 1;
+  background: #dbdbdb;
+  height: 1px;
+  width: 50px;
+}
+
+.dividerText {
+  margin: 0 18px;
+  color: #737373;
+  font-size: .8125rem;
+}
+
+.oAuthButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border: none;
+  background: none;
+}
+
+.oAuthButtonText {
+  color: #385185;
+  font-weight: 600;
+}
+
+.signUpCTA {
+  border: 1px solid #dbdbdb;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.signUpCTAText {
+  margin: 15px;
+  font-size: .875rem;
+}
+
+.signUpCTALink {
+  text-decoration: none;
+  color: #0094f6;
+}
+
+.appDownloadCTA {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.appDownloadCTAText {
+  font-size: .875rem;
+  font-weight: 400;
+}
+
+.appDownloadCTAIconGroup {
+  display: flex;
+  gap: 5px;
+}
+
+.storeButton {
+  position: relative;
+  width: 136px;
+  height: 40px;
+}
