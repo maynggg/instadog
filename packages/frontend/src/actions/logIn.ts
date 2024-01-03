@@ -1,6 +1,6 @@
 "use server";
 
-import { getClient } from "../utils/apollo-provider";
+import { request } from "graphql-request";
 import { LoginMutation } from "@/generated/graphql";
 import { LOGIN } from "@/graphql/mutations/login.gql";
 import { z } from "zod";
@@ -17,14 +17,10 @@ export const logIn = async (_prevState: any, formData: FormData) => {
   });
 
   if (validatedInput.username && validatedInput.password) {
-    const client = getClient();
     try {
-      const { data } = await client.mutate<LoginMutation>({
-        mutation: LOGIN,
-        variables: {
-          userName: validatedInput.username,
-          password: validatedInput.password,
-        },
+      const data = await request<LoginMutation>("http://localhost:4000/graphql", LOGIN, {
+        userName: validatedInput.username,
+        password: validatedInput.password,
       });
 
       const token = data?.login?.token;

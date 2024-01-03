@@ -10,12 +10,11 @@
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
-    "@apollo/client": "^3.7.9",
-    "@apollo/experimental-nextjs-app-support": "^0.4.3",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "axios": "^1.5.0",
     "graphql": "^16.8.1",
+    "graphql-request": "^6.1.0",
     "next": "^14.0.2-canary.27",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -24,6 +23,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-graphql-request": "^6.1.0",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@types/node": "20.5.6",

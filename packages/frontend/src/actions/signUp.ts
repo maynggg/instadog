@@ -1,6 +1,6 @@
 "use server";
 
-import { getClient } from "../utils/apollo-provider";
+import { request } from "graphql-request";
 import { RegisterMutation } from "@/generated/graphql";
 import { REGISTER } from "@/graphql/mutations/register.gql";
 import { z } from "zod";
@@ -19,16 +19,12 @@ export const signUp = async (_prevState: any, formData: FormData) => {
   });
 
   if (validatedInput.email && validatedInput.username && validatedInput.password) {
-    const client = getClient();
     try {
-      const { data } = await client.mutate<RegisterMutation>({
-        mutation: REGISTER,
-        variables: {
-          input: {
-            userName: validatedInput.username,
-            email: validatedInput.email,
-            password: validatedInput.password,
-          },
+      const data = await request<RegisterMutation>("http://localhost:4000/graphql", REGISTER, {
+        input: {
+          userName: validatedInput.username,
+          email: validatedInput.email,
+          password: validatedInput.password,
         },
       });
 
