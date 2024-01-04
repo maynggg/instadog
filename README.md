@@ -14,7 +14,10 @@
 ![App Screen Shot](packages/frontend/public/screenshot.png)
 
 Instadog is built with <b>Next.js 13</b>, <b>GraphQL</b> APIs and <b>MongoDB</b> database.
+
 It's a <b>monorepo</b> that combines <b>TypeScript</b> and <b>GraphQL's</b> type systems to create a <i>full-stack</i>, <i>fully-type-checked</i> codebase.
+
+The project implements <b>Dependency Injection</b> without using <i>any</i> framework, and demonstrates <b>testability</b> with <b>unit tests</b>.
 
 It's an ongoing project with new features and functionalities being added continuously. The end goal is to have a fully functional Instagram-cloned web app.
 
